@@ -1,0 +1,20 @@
+name: Update Data and Send Refresh Signal
+on: [push]
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+	  - name: Update data
+        run: |             
+             git config --global user.email "contact@gavalas.dev"
+             git config --global user.name "galekod"
+             git clone "https://galenkod:${{ secrets.USER_TOKEN }}@github.com/galenkod/greek-thesaurus.git"
+             cd greek-thesaurus
+             chmod +x scripts/update
+             ./scripts/update thesaurus.txt data.json
+             git add data.json
+             git commit -m "Updated data.json"
+             git push -u origin master
+	  - name: Send refresh message
+        run: curl -XPOST -u "galenkod:${{ secrets.USER_TOKEN }}" -H "Accept:application/vnd.github.everest-preview+json" -H "Content-Type:application/json" https://api.github.com/repos/galenkod/sinonima/dispatches --data '{"event_type":"build_application"}'
