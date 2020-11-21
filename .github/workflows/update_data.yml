@@ -13,8 +13,8 @@ jobs:
              chmod +x scripts/update
              ./scripts/update thesaurus.txt data.json
              git add data.json
-             git commit -m "Updated data.json"
-             git push
+             git commit -m "Updated data.json" || true
+             git push || true
              
       - name: Send refresh signal
         run: curl -XPOST -u "galenkod:${{ secrets.USER_TOKEN }}" -H "Accept:application/vnd.github.everest-preview+json" -H "Content-Type:application/json" https://api.github.com/repos/galenkod/sinonima/dispatches --data '{"event_type":"build_application"}'
