@@ -1,8 +1,7 @@
 name: Check for errors
 
 on:
-  pull_request:
-    branches: [ main ]
+  pull_request
 
 jobs:
   check:
