@@ -1,5 +1,7 @@
 name: Update Data and Send Refresh Signal
-on: [push]
+on: 
+  push:
+    branches: master
 
 jobs:
   send:
